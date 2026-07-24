@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alzen — Xizmat itlari haqida</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d1a12">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="styles.css">
+<style>
+  #alzen-splash{position:fixed;inset:0;background:#0d1a12;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s ease;}
+  #alzen-splash img{width:38vw;max-width:220px;min-width:120px;border-radius:50%;box-shadow:0 0 40px rgba(212,175,55,.35);}
+  #alzen-splash .alzen-name{margin-top:18px;color:#d4af37;font-family:Georgia,'Times New Roman',serif;font-size:28px;letter-spacing:4px;font-weight:700;}
+  #alzen-splash.alzen-hide{opacity:0;pointer-events:none;}
+</style>
+</head>
+<body>
+<div id="alzen-splash">
+  <img src="Men haqida/men haqimda.png" alt="Alzen">
+  <div class="alzen-name">ALZEN</div>
+</div>
+<header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-icons"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 1 7l11 5 9-4.09V17h2V7L12 2Z"/><path d="M5 9.18V14c0 2.21 3.13 4 7 4s7-1.79 7-4V9.18l-7 3.18-7-3.18Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 2c-1 0-2 1-2 2 0 .6.2 1.1.6 1.5C6.1 6.4 5 8 5 10v2l-2 1v2l2-.5V17c0 2 2 4 5 4s5-2 5-4v-3.2c1.2-.6 2-1.9 2-3.3 0-1.7-1.1-3.1-2.6-3.6.4-.4.6-.9.6-1.4 0-1.1-.9-2-2-2-.7 0-1.3.4-1.7 1H10.7C10.3 2.4 9.7 2 9 2Z"/></svg></span>
+        <span class="brand-text">
+          <div class="title">ILMIY ISH</div>
+          <div class="subtitle">Xizmat itlari haqida</div>
+        </span>
+      </a>
+      <nav class="main-nav">
+        <a href="index.html" class="active">Bosh sahifa</a>
+<a href="about.html" class="">Men haqimda</a>
+<a href="news.html" class="">Yangiliklar</a>
+<div class="dropdown ">
+      <button class="dropdown-toggle" onclick="toggleDropdown(this)">Qo‘llanma <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dropdown-menu">
+        <a href="guide.html" style="font-weight:700;color:#1d3f78;">Qo‘llanma sahifasi</a>
+        <a href="Xizmat itlari turlari/index.html">1. Xizmat itlari turlari</a>
+<a href="parvarish.html">2. Parvarish</a>
+<a href="mashqlar.html">3. UMK mashg‘ulotlari</a>
+<a href="ovqatlanish.html">4. Ovqatlanish</a>
+<a href="mmk.html">5. MMK usullari</a>
+<a href="xavfsizlik.html">6. Xavfsizlik</a>
+      </div>
+    </div>
+      </nav>
+    </div>
+  </header>
+
+<section class="hero">
+  <div class="hero-media">
+    <div class="img-wrap" style="position:absolute;inset:0;">
+      <img src="D:\start up\xizmat itlari\bosh sahifa uchun\bosh sahifa uchun.png" alt="Xizmat iti" title="Bu yerda surat bor. Onlayn holda ko‘rishingiz mumkin." loading="lazy" onerror="imgFallback(this)" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <div class="img-fallback" style="position:absolute;inset:0;border-radius:0;min-height:100%;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5.5-5.5L3 20"/></svg><span>Bu yerda surat bor.<br>Onlayn holda ko‘rishingiz mumkin.</span></div>
+    </div>
+    <div class="hero-gradient"></div>
+    <div class="hero-content">
+      <h1>Xizmat itlaridan foydalanish bo‘yicha qo‘llanma</h1>
+      <div class="hero-rule"></div>
+      <p>Bu yerda siz xizmat itlari haqida to‘liq ma’lumot olishingiz mumkin.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="grid">
+    <div class="card">
+      <div class="icon-circle"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 2c-1 0-2 1-2 2 0 .6.2 1.1.6 1.5C6.1 6.4 5 8 5 10v2l-2 1v2l2-.5V17c0 2 2 4 5 4s5-2 5-4v-3.2c1.2-.6 2-1.9 2-3.3 0-1.7-1.1-3.1-2.6-3.6.4-.4.6-.9.6-1.4 0-1.1-.9-2-2-2-.7 0-1.3.4-1.7 1H10.7C10.3 2.4 9.7 2 9 2Z"/></svg></div>
+      <h3>1. Xizmat itlari turlari</h3>
+      <p>Xizmat itlarining turlari, vazifalari va ularning qo‘llanilish sohalari haqida.</p>
+      <a class="btn" href="Xizmat itlari turlari/index.html">Batafsil</a>
+    </div>
+<div class="card">
+      <div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8.5c-1-2-4-2.2-4 .6 0 2 2.6 3.6 4 4.9 1.4-1.3 4-2.9 4-4.9 0-2.8-3-2.6-4-.6Z"/><path d="M3 15c1.8-1 3.5-1 5 0l3 1.5 5-1c1.2-.2 2 .4 2 1.2 0 1-1 1.5-2 1.7l-5 1.1c-1.3.3-2.7.1-3.8-.5L3 17"/></svg></div>
+      <h3>2. Parvarish</h3>
+      <p>Xizmat itlariga to‘g‘ri parvarish qilish, gigiyena va sog‘liqni saqlash bo‘yicha ma’lumotlar.</p>
+      <a class="btn" href="parvarish.html">Batafsil</a>
+    </div>
+<div class="card">
+      <div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="5" r="2" fill="currentColor" stroke="none"/><path d="M7 8v6l-2 6M7 14l3 6M7 12l4-1"/><path d="M17 9c0 2-1.2 3.5-3 3.5S11 11 11 9s1.2-2.5 3-2.5 3 .5 3 2.5Z"/><path d="M14 12.5v3l-2 3"/></svg></div>
+      <h3>3. UMK mashg‘ulotlari</h3>
+      <p>Umumiy mashq komplekslari va xizmat itlarini tayyorlash usullari.</p>
+      <a class="btn" href="mashqlar.html">Batafsil</a>
+    </div>
+<div class="card">
+      <div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18c0 4-4 7-9 7s-9-3-9-7Z"/><path d="M6 12c0-1.5.6-2.7 1.6-3.6" /><circle cx="9" cy="5" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="4" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="5" r="1" fill="currentColor" stroke="none"/></svg></div>
+      <h3>4. Ovqatlanish</h3>
+      <p>Xizmat itlarining ovqatlanish me’yorlari va to‘g‘ri ovqat tanlash bo‘yicha tavsiyalar.</p>
+      <a class="btn" href="ovqatlanish.html">Batafsil</a>
+    </div>
+<div class="card">
+      <div class="icon-circle"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3Z"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h3>5. MMK usullari</h3>
+      <p>Maxsus mashq komplekslari usullari va ularni qo‘llash bo‘yicha yo‘riqnoma.</p>
+      <a class="btn" href="mmk.html">Batafsil</a>
+    </div>
+<div class="card">
+      <div class="icon-circle"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 21h22L12 3Z"/><rect x="11" y="9" width="2" height="6" fill="#fff"/><rect x="11" y="16.5" width="2" height="2" fill="#fff"/></svg></div>
+      <h3>6. Xavfsizlik</h3>
+      <p>Xizmat itlari va ularning egalarining xavfsizligini ta’minlash bo‘yicha muhim ma’lumotlar.</p>
+      <a class="btn" href="xavfsizlik.html">Batafsil</a>
+    </div>
+
+  </div>
+</section>
+
+<footer class="site-footer">
+    <p>Muallif: <strong>Tog‘ayev A</strong></p>
+    <p>&copy; 2026</p>
+  </footer>
+<script src="script.js"></script>
+<script>
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      const splash = document.getElementById("alzen-splash");
+      if (splash) {
+        splash.classList.add("alzen-hide");
+        setTimeout(() => splash.remove(), 500);
+      }
+    }, 900);
+  });
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch((err) => {
+        console.warn("Service worker ro'yxatdan o'tmadi:", err);
+      });
+    });
+  }
+</script>
+</body>
+</html>

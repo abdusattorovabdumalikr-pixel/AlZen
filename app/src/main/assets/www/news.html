@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yangiliklar — Ilmiy ish</title>
+<link rel="stylesheet" href="styles.css">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d1a12">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+<header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-icons"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 1 7l11 5 9-4.09V17h2V7L12 2Z"/><path d="M5 9.18V14c0 2.21 3.13 4 7 4s7-1.79 7-4V9.18l-7 3.18-7-3.18Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 2c-1 0-2 1-2 2 0 .6.2 1.1.6 1.5C6.1 6.4 5 8 5 10v2l-2 1v2l2-.5V17c0 2 2 4 5 4s5-2 5-4v-3.2c1.2-.6 2-1.9 2-3.3 0-1.7-1.1-3.1-2.6-3.6.4-.4.6-.9.6-1.4 0-1.1-.9-2-2-2-.7 0-1.3.4-1.7 1H10.7C10.3 2.4 9.7 2 9 2Z"/></svg></span>
+        <span class="brand-text">
+          <div class="title">ILMIY ISH</div>
+          <div class="subtitle">Xizmat itlari haqida</div>
+        </span>
+      </a>
+      <nav class="main-nav">
+        <a href="index.html" class="">Bosh sahifa</a>
+<a href="about.html" class="">Men haqimda</a>
+<a href="news.html" class="active">Yangiliklar</a>
+<div class="dropdown ">
+      <button class="dropdown-toggle" onclick="toggleDropdown(this)">Qo‘llanma <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dropdown-menu">
+        <a href="guide.html" style="font-weight:700;color:#1d3f78;">Qo‘llanma sahifasi</a>
+        <a href="turlari.html">1. Xizmat itlari turlari</a>
+<a href="parvarish.html">2. Parvarish</a>
+<a href="mashqlar.html">3. UMK mashg‘ulotlari</a>
+<a href="ovqatlanish.html">4. Ovqatlanish</a>
+<a href="mmk.html">5. MMK usullari</a>
+<a href="xavfsizlik.html">6. Xavfsizlik</a>
+      </div>
+    </div>
+      </nav>
+    </div>
+  </header>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Bosh sahifa</a> / Yangiliklar</div>
+    <h1>Yangiliklar</h1>
+  </div>
+</div>
+<div class="news-list">
+  <div class="news-item">
+      <div class="date">2026-yil 5-iyul</div>
+      <h3>Yangi UMK dasturi ishga tushirildi</h3>
+      <p>Xizmat itlarini tayyorlash uchun yangilangan umumiy mashqlar kompleksi dasturi e’lon qilindi. Dastur instruktorlar uchun qo‘shimcha uslubiy tavsiyalarni o‘z ichiga oladi.</p>
+    </div>
+<div class="news-item">
+      <div class="date">2026-yil 22-iyun</div>
+      <h3>Xizmat itlari ko‘rik-tanlovi o‘tkazildi</h3>
+      <p>Mintaqaviy ko‘rik-tanlovda turli yo‘nalishdagi xizmat itlari o‘z mahoratlarini namoyish etishdi. Tadbirda eng yaxshi natija ko‘rsatgan itlar va instruktorlar taqdirlandi.</p>
+    </div>
+<div class="news-item">
+      <div class="date">2026-yil 10-iyun</div>
+      <h3>Parvarish bo‘yicha yangi qo‘llanma nashr etildi</h3>
+      <p>Xizmat itlarini kunlik parvarish qilish, ovqatlantirish va sog‘liqni saqlash bo‘yicha yangilangan qo‘llanma sayt sahifalariga qo‘shildi.</p>
+    </div>
+
+  <a class="back-link" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Bosh sahifaga qaytish</a>
+</div>
+
+<footer class="site-footer">
+    <p>Muallif: <strong>Tog‘ayev A</strong></p>
+    <p>&copy; 2026</p>
+  </footer>
+<script src="script.js"></script>
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").catch(()=>{});
+}
+</script>
+</body>
+</html>

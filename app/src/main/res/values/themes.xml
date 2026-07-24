@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Asosiy ilova mavzusi -->
+    <style name="Theme.Alzen" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/alzen_bg</item>
+        <item name="android:windowBackground">@color/alzen_bg</item>
+    </style>
+
+    <!-- Splash screen mavzusi (dastur ochilganda darhol ko'rinadi) -->
+    <style name="Theme.Alzen.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/alzen_bg</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.Alzen</item>
+    </style>
+
+</resources>

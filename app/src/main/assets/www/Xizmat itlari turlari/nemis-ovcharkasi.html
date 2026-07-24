@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nemis ovcharkasi — Xizmat itlaridan foydalanish bo'yicha elektron qo'llanma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#0a1524;
+    --navy-900:#0e1e33;
+    --navy-800:#13273f;
+    --navy-700:#1a3352;
+    --navy-line:#2a4467;
+    --gold:#d4af37;
+    --gold-soft:#e8c766;
+    --paper:#f3f5f9;
+    --card:#ffffff;
+    --ink:#182233;
+    --ink-soft:#5b6577;
+    --green:#3ec27a;
+    --red:#d8544a;
+    --radius:14px;
+    --shadow:0 10px 30px -12px rgba(10,21,36,.18);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.brand-title{font-family:'Montserrat',system-ui,sans-serif;}
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  img{max-width:100%;display:block;}
+
+  /* ===== Placeholder for failed images ===== */
+  .img-wrap{position:relative;overflow:hidden;background:linear-gradient(135deg,#1a3352,#0e1e33);}
+  .img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+  .img-wrap:hover img{transform:scale(1.04);}
+  .img-fallback{
+    display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;
+    gap:8px;color:#cfd9ea;text-align:center;padding:16px;
+    background:linear-gradient(135deg,#132844,#0a1524);
+  }
+  .img-fallback.show{display:flex;}
+  .img-fallback svg{width:34px;height:34px;opacity:.75;}
+  .img-fallback b{font-size:13px;font-weight:600;color:#fff;}
+  .img-fallback span{font-size:11.5px;color:#9fb0c9;max-width:220px;line-height:1.5;}
+
+  /* ===== Top bar ===== */
+  .topbar{
+    background:linear-gradient(90deg,var(--navy-950),var(--navy-800) 60%,var(--navy-950));
+    color:#fff;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;
+    border-bottom:3px solid var(--gold);flex-wrap:wrap;
+  }
+  .brand{display:flex;align-items:center;gap:14px;}
+  .brand .emblem{
+    width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e8c766,#a5791b);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid var(--gold-soft);
+    font-size:22px;box-shadow:0 0 0 3px rgba(212,175,55,.15);
+  }
+  .brand-eyebrow{font-size:11px;letter-spacing:.08em;color:#a9b8cf;text-transform:uppercase;margin:0 0 2px;}
+  .brand-title{font-size:18px;font-weight:800;letter-spacing:.02em;margin:0;color:#fff;line-height:1.25;}
+  .brand-sub{font-size:11.5px;color:#8fa0ba;margin-top:2px;}
+  .topbar-right{display:flex;align-items:center;gap:22px;font-size:13px;color:#c9d3e3;flex-wrap:wrap;}
+  .topbar-right .chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.05);padding:8px 12px;border-radius:9px;border:1px solid rgba(255,255,255,.08);}
+  .dot-live{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(62,194,122,.25);animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.45;}}
+
+  /* ===== Nav ===== */
+  nav.mainnav{
+    background:var(--navy-900);display:flex;align-items:center;gap:2px;padding:0 20px;flex-wrap:wrap;
+    position:sticky;top:0;z-index:40;border-bottom:1px solid var(--navy-line);
+  }
+  .navlink{
+    display:flex;align-items:center;gap:8px;color:#cfd9ea;padding:15px 18px;font-size:13.5px;font-weight:600;
+    letter-spacing:.02em;border-bottom:3px solid transparent;transition:.2s;position:relative;
+  }
+  .navlink:hover{color:#fff;background:rgba(255,255,255,.04);}
+  .navlink.active{color:var(--gold-soft);border-bottom-color:var(--gold);background:rgba(212,175,55,.07);}
+  .navlink .caret{font-size:9px;margin-left:2px;transition:.25s;}
+  .navlink.open .caret{transform:rotate(180deg);}
+  .dropdown{
+    position:absolute;top:100%;left:0;background:var(--navy-800);min-width:230px;border-radius:0 0 10px 10px;
+    box-shadow:var(--shadow);border:1px solid var(--navy-line);border-top:none;overflow:hidden;
+    display:none;z-index:50;
+  }
+  .dropdown.show{display:block;}
+  .dropdown a{display:block;padding:11px 18px;font-size:13px;color:#c9d3e3;border-bottom:1px solid rgba(255,255,255,.05);}
+  .dropdown a:hover{background:rgba(212,175,55,.1);color:#fff;padding-left:22px;}
+
+  .breadcrumb{
+    max-width:1180px;margin:0 auto;padding:16px 20px 0;font-size:13px;color:var(--ink-soft);
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  }
+  .breadcrumb a{color:var(--ink-soft);}
+  .breadcrumb a:hover{color:var(--gold);}
+  .breadcrumb .current{color:var(--ink);font-weight:600;}
+
+  main{max-width:1180px;margin:0 auto;padding:10px 20px 60px;}
+
+  .page-head{text-align:center;margin:26px 0 30px;}
+  .page-head h1{font-size:38px;font-weight:800;color:var(--navy-900);margin:0 0 8px;letter-spacing:.01em;}
+  .page-head .en{font-size:14px;letter-spacing:.14em;color:var(--ink-soft);text-transform:uppercase;font-weight:600;}
+  .divider-line{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:10px;color:var(--gold);font-size:13px;}
+  .divider-line::before,.divider-line::after{content:"";width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
+  .divider-line::after{background:linear-gradient(90deg,var(--gold),transparent);}
+
+  /* ===== Hero ===== */
+  .hero-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:24px;margin-bottom:34px;}
+  .hero-photo{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);aspect-ratio:4/3;}
+  .hero-photo .img-wrap{width:100%;height:100%;}
+
+  .passport{background:var(--navy-900);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);color:#fff;}
+  .passport h3{margin:0;padding:16px 20px;text-align:center;background:linear-gradient(90deg,var(--navy-800),var(--navy-700));
+    font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-soft);border-bottom:2px solid var(--gold);}
+  .passport table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .passport td{padding:11px 20px;border-bottom:1px solid rgba(255,255,255,.06);}
+  .passport tr:last-child td{border-bottom:none;}
+  .passport td:first-child{color:#9fb0c9;width:46%;display:flex;align-items:center;gap:10px;font-weight:500;}
+  .passport td:last-child{color:#fff;font-weight:600;text-align:right;}
+  .stars{color:var(--gold);letter-spacing:2px;}
+
+  section.block{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 28px;margin-bottom:24px;}
+  .section-title{display:flex;align-items:center;gap:10px;margin:0 0 20px;font-size:12.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--navy-900);font-weight:700;}
+  .section-title::before,.section-title::after{content:"";flex:1;height:1px;background:#e3e8f0;}
+
+  /* Duties grid */
+  .duties-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+  .duty-card{
+    background:linear-gradient(160deg,var(--navy-900),var(--navy-800));color:#fff;border-radius:12px;padding:20px 14px;
+    text-align:center;border:1px solid var(--navy-line);transition:.25s;cursor:default;
+  }
+  .duty-card:hover{transform:translateY(-4px);box-shadow:0 14px 26px -10px rgba(10,21,36,.4);border-color:var(--gold);}
+  .duty-card .icon{width:42px;height:42px;margin:0 auto 12px;border-radius:50%;background:rgba(212,175,55,.14);
+    display:flex;align-items:center;justify-content:center;font-size:19px;}
+  .duty-card b{display:block;font-size:12.5px;color:var(--gold-soft);letter-spacing:.03em;margin-bottom:6px;}
+  .duty-card p{margin:0;font-size:11.5px;color:#aebbd0;line-height:1.5;}
+
+  /* two column */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  .block p.body-text{font-size:14px;line-height:1.85;color:#3d4759;margin:0;}
+
+  .badge-list{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .badge-item{display:flex;gap:12px;align-items:flex-start;}
+  .badge-item .ic{width:38px;height:38px;border-radius:10px;background:var(--paper);border:1px solid #e3e8f0;
+    display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+  .badge-item b{display:block;font-size:12.5px;color:var(--navy-900);margin-bottom:3px;}
+  .badge-item span{font-size:12px;color:var(--ink-soft);line-height:1.5;}
+
+  .cons-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;}
+  .cons-list li{display:flex;gap:10px;font-size:13.5px;color:#3d4759;align-items:flex-start;line-height:1.5;}
+  .cons-list li::before{content:"—";color:var(--red);font-weight:700;flex-shrink:0;}
+
+  /* training timeline */
+  .timeline{display:flex;justify-content:space-between;position:relative;padding:10px 6px 0;}
+  .timeline::before{content:"";position:absolute;top:31px;left:40px;right:40px;height:2px;background:#e3e8f0;z-index:0;}
+  .t-step{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;flex:1;text-align:center;}
+  .t-num{width:42px;height:42px;border-radius:50%;background:var(--navy-900);color:var(--gold-soft);display:flex;
+    align-items:center;justify-content:center;font-weight:800;font-size:15px;border:3px solid var(--paper);box-shadow:0 0 0 2px var(--navy-line);}
+  .t-step span{font-size:12px;color:var(--ink-soft);max-width:90px;font-weight:600;line-height:1.4;}
+
+  /* stats + gallery + video */
+  .bottom-grid{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:20px;align-items:stretch;}
+  .stat-row{margin-bottom:14px;}
+  .stat-row:last-child{margin-bottom:0;}
+  .stat-label{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink);font-weight:600;margin-bottom:6px;}
+  .stat-track{height:9px;border-radius:6px;background:#e9edf3;overflow:hidden;}
+  .stat-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--navy-700),var(--gold));width:0;transition:width 1.1s cubic-bezier(.2,.7,.3,1);}
+
+  .gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+  .gallery-thumb{border-radius:9px;overflow:hidden;aspect-ratio:1/1;cursor:pointer;box-shadow:var(--shadow);}
+  .gallery-thumb .img-wrap{width:100%;height:100%;}
+  .btn-outline{
+    width:100%;padding:11px;border-radius:9px;border:1.5px solid var(--navy-line);background:transparent;
+    color:var(--navy-900);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;transition:.2s;
+  }
+  .btn-outline:hover{background:var(--navy-900);color:#fff;border-color:var(--navy-900);}
+
+  .video-box{position:relative;border-radius:9px;overflow:hidden;aspect-ratio:16/10;background:var(--navy-950);box-shadow:var(--shadow);}
+  .video-box video, .video-box .img-wrap{width:100%;height:100%;}
+  .play-btn{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,21,36,.28);
+    border:none;transition:.2s;
+  }
+  .play-btn:hover{background:rgba(10,21,36,.45);}
+  .play-btn .circle{
+    width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;
+    justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.35);transition:.2s;
+  }
+  .play-btn:hover .circle{transform:scale(1.08);}
+  .play-btn .circle::after{content:"";border-style:solid;border-width:9px 0 9px 16px;border-color:transparent transparent transparent var(--navy-900);margin-left:4px;}
+  .video-box.playing .play-btn{display:none;}
+
+  /* footer nav buttons */
+  .foot-nav{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:14px;margin-top:6px;}
+  .nav-btn{
+    background:var(--navy-900);color:#fff;border:1px solid var(--navy-line);border-radius:11px;padding:16px 18px;
+    display:flex;align-items:center;gap:12px;font-size:13px;transition:.2s;
+  }
+  .nav-btn:hover{background:var(--navy-800);border-color:var(--gold);}
+  .nav-btn.next{justify-content:flex-end;text-align:right;}
+  .nav-btn .arr{font-size:16px;color:var(--gold-soft);}
+  .nav-btn small{display:block;color:#8fa0ba;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;}
+  .nav-btn b{font-size:14px;}
+  .notice-btn{
+    background:linear-gradient(90deg,#3a2410,#241705);border:1px solid var(--gold);color:var(--gold-soft);
+    border-radius:11px;padding:16px 20px;display:flex;align-items:center;gap:12px;font-size:13px;font-weight:600;
+    justify-content:center;text-align:center;line-height:1.5;
+  }
+
+  footer{background:var(--navy-950);color:#8fa0ba;text-align:center;padding:22px;font-size:12.5px;margin-top:10px;
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding-left:28px;padding-right:28px;}
+
+  /* Toast */
+  .toast{
+    position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy-900);
+    color:#fff;padding:13px 22px;border-radius:10px;font-size:13px;box-shadow:var(--shadow);opacity:0;
+    pointer-events:none;transition:.3s;z-index:200;border:1px solid var(--gold);display:flex;gap:10px;align-items:center;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* Lightbox */
+  .lightbox{position:fixed;inset:0;background:rgba(6,12,22,.92);display:none;align-items:center;justify-content:center;
+    z-index:300;padding:30px;}
+  .lightbox.show{display:flex;}
+  .lightbox-inner{position:relative;max-width:900px;width:100%;}
+  .lightbox img{width:100%;border-radius:12px;max-height:78vh;object-fit:contain;background:#0e1e33;}
+  .lightbox-close{position:absolute;top:-46px;right:0;color:#fff;font-size:15px;background:rgba(255,255,255,.12);
+    border:none;width:36px;height:36px;border-radius:50%;}
+  .lightbox-nav{display:flex;justify-content:space-between;position:absolute;top:50%;left:-18px;right:-18px;transform:translateY(-50%);}
+  .lightbox-nav button{width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:18px;}
+  .lightbox-nav button:hover{background:var(--gold);color:var(--navy-900);}
+  .lightbox-caption{text-align:center;color:#c9d3e3;font-size:12.5px;margin-top:12px;}
+
+  @media (max-width:980px){
+    .hero-grid,.two-col,.bottom-grid{grid-template-columns:1fr;}
+    .duties-grid{grid-template-columns:repeat(3,1fr);}
+    .badge-list{grid-template-columns:1fr;}
+    .foot-nav{grid-template-columns:1fr;}
+    .timeline{flex-wrap:wrap;gap:18px;}
+    .timeline::before{display:none;}
+  }
+  @media (max-width:560px){
+    .duties-grid{grid-template-columns:repeat(2,1fr);}
+    .gallery-grid{grid-template-columns:1fr 1fr;}
+    .page-head h1{font-size:28px;}
+    .topbar{padding:12px 16px;}
+    .brand-title{font-size:14.5px;}
+  }
+  /* logotip */
+  .brand{display:flex;align-items:center;gap:14px;}
+  .crest{
+    width:52px;height:52px;border-radius:50%;
+    border:2px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gold);font-size:22px;
+    background:radial-gradient(circle, rgba(212,175,106,.12), transparent 70%);
+    flex-shrink:0;
+    overflow:hidden;
+  }
+  .crest img{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+  .brand h1{
+    font-family:'Marcellus',serif;
+    font-size:13.5px;letter-spacing:.09em;
+    color:var(--gold-bright);
+    line-height:1.45;text-transform:uppercase;
+  }
+</style>
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#0d1a12">
+<link rel="icon" href="../icons/icon-192.png">
+<link rel="apple-touch-icon" href="../icons/icon-192.png">
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="crest">
+      <img src="D:\start up\xizmat itlari\Men haqida\logo.png" alt="Chegara qo'shinlari logotipi">
+    </div>
+    <div class="brand-text">
+      <p class="brand-eyebrow">O'zbekiston Respublikasi</p>
+      <p class="brand-title">XIZMAT ITLARIDAN FOYDALANISH BO'YICHA<br>ELEKTRON QO'LLANMA</p>
+      <p class="brand-sub">O'quv-uslubiy material</p>
+    </div>
+  </div>
+
+  <div class="topbar-right">
+    <div class="chip" id="dateChip">📅 <span id="dateText">—</span></div>
+    <div class="chip" id="clockChip">🕐 <span id="clockText">—</span></div>
+    <div class="chip"><span class="dot-live" id="onlineDot"></span> <span id="onlineText">Onlayn</span></div>
+  </div>
+</div>
+
+<!-- ===== NAV ===== -->
+<nav class="mainnav" id="mainNav">
+  <a href="index.html" class="navlink">🏠 Ro`yxatga qaytish</a>
+  <div style="position:relative;">
+    <a href="#" class="navlink active" id="breedsNav">🐾 Xizmat itlari zotlari <span class="caret">▾</span></a>
+    <div class="dropdown" id="breedsDropdown">
+      <a href="nemis-ovcharkasi.html" class="dropdown-current">Nemis ovcharkasi (joriy)</a>
+      <a href="belgiyalik-malinua.html">Belgiyalik Malinua</a>
+      <a href="rottweiler.html">Rottweiler</a>
+      <a href="doberman.html">Dobermen</a>
+      <a href="lablardor.html">Labrador Retriver</a>
+      <a href="bloodhound.html">Bloodhound</a>
+      <a href="boxer.html">Boxer</a>
+      <a href="giant-schnauzer.html">Giant-Schnauzer</a>
+      <a href="akita.html">Akita</a>
+      <a href="cane-corso.html">Cane-Corso</a>
+    </div>
+  </div>
+  <a href="#" class="navlink" data-toast="Maqolalar bo'limi tez orada to'ldiriladi">📖 Maqolalar</a>
+  <a href="#" class="navlink" id="videoNavLink">▶️ Video darslar</a>
+  <a href="#" class="navlink" data-toast="Foydali ma'lumotlar bo'limi ochilmoqda">ℹ️ Foydali ma'lumotlar</a>
+  <a href="#" class="navlink" data-toast="Muallif: Tog'ayev A.">👤 Men haqimda</a>
+</nav>
+
+<div class="breadcrumb">
+  <a href="../index.html">🏠 Bosh sahifa</a> <span>›</span>
+  <a href="index.html">Xizmat itlari turlari</a> <span>›</span>
+  <span class="current">Nemis ovcharkasi</span>
+</div>
+
+<main>
+
+  <div class="page-head">
+    <h1>NEMIS OVCHARKASI</h1>
+    <p class="en">German Shepherd Working Dog</p>
+    <div class="divider-line">★★★★★</div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <div class="hero-grid">
+    <div class="hero-photo">
+      <div class="img-wrap">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/German%20Shepherd%20Dog%20Alsatian%201.jpg"
+             alt="Nemis ovcharkasi xizmat iti"
+             onerror="showFallback(this)">
+        <div class="img-fallback">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M4.9 4.9 19.1 19.1"/></svg>
+          <b>Rasm yuklanmadi</b>
+          <span>Internet aloqasi mavjud emas. Ulanganingizda asl rasm shu yerda ko'rinadi.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="passport">
+      <h3>Pasport ma'lumotlari</h3>
+      <table>
+        <tr><td>✦ Nomi</td><td>Nemis ovcharkasi</td></tr>
+        <tr><td>🅻 Lotincha nomi</td><td>German Shepherd</td></tr>
+        <tr><td>🌍 Kelib chiqishi</td><td>Germaniya</td></tr>
+        <tr><td>⚖️ Vazni</td><td>30 – 40 kg</td></tr>
+        <tr><td>📏 Bo'yi</td><td>60 – 65 sm</td></tr>
+        <tr><td>🎯 Xizmat yo'nalishi</td><td>Patrul, Chegara, Qidiruv, Harbiy</td></tr>
+        <tr><td>🔥 Temperamenti</td><td>Jiddiy, itoatkor, jasur, sodiq</td></tr>
+        <tr><td>⏳ Xizmat muddati</td><td>8 – 10 yil</td></tr>
+        <tr><td>👃 Hid bilish darajasi</td><td class="stars">★★★★★</td></tr>
+        <tr><td>🎓 Buyruqlarni o'zlashtirish</td><td class="stars">★★★★★</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== DUTIES ===== -->
+  <section class="block">
+    <p class="section-title">Xizmat vazifalari</p>
+    <div class="duties-grid">
+      <div class="duty-card"><div class="icon">🛡️</div><b>Patrul</b><p>Hududni patrul qilish va nazorat qilish</p></div>
+      <div class="duty-card"><div class="icon">💣</div><b>Portlovchi moddalarni aniqlash</b><p>Portlovchi moddalar va xavfli buyumlarni aniqlash</p></div>
+      <div class="duty-card"><div class="icon">🔫</div><b>Qurol qidirish</b><p>Yong'in qurollari va o'q-dorilarni aniqlash</p></div>
+      <div class="duty-card"><div class="icon">🐾</div><b>Iz bo'yicha qidiruv</b><p>Yo'qolgan shaxslar va izlarni qidirish</p></div>
+      <div class="duty-card"><div class="icon">🚧</div><b>Chegara xizmati</b><p>Chegara nazorati va noqonuniy o'tishni oldini olish</p></div>
+      <div class="duty-card"><div class="icon">🏛️</div><b>Muhim obyektlarni qo'riqlash</b><p>Muhim obyektlarni qo'riqlash va himoya qilish</p></div>
+    </div>
+  </section>
+
+  <!-- ===== HISTORY / ADVANTAGES ===== -->
+  <div class="two-col">
+    <section class="block">
+      <p class="section-title">Tarixi va kelib chiqishi</p>
+      <p class="body-text">Nemis ovcharkasi XIX asr oxirida Germaniyada yaratilgan. Maqsad — aqlli, kuchli, itoatkor va ko'p qirrali xizmat itini yaratish edi. Kapitan Maks fon Shtefanits seleksiya ishlarini olib borgan va 1899-yilda birinchi rasmiy namoyish o'tkazilgan. Bugungi kunda nemis ovcharkasi dunyoning deyarli barcha davlatlarida politsiya, armiya, chegara xizmati va qutqaruv xizmatlarida keng qo'llaniladi.</p>
+    </section>
+    <section class="block">
+      <p class="section-title">Afzalliklari</p>
+      <div class="badge-list">
+        <div class="badge-item"><div class="ic">🛡️</div><div><b>Kuchli himoyachi</b><span>O'z egasini va hududini ishonchli himoya qiladi</span></div></div>
+        <div class="badge-item"><div class="ic">👃</div><div><b>Juda kuchli hid sezish</b><span>Insondan 40 baravar kuchli hid sezadi</span></div></div>
+        <div class="badge-item"><div class="ic">🧠</div><div><b>Tez o'rganadi</b><span>Buyruqlarni tez va aniq o'zlashtiradi</span></div></div>
+        <div class="badge-item"><div class="ic">❤️</div><div><b>Egasiga sodiq</b><span>Sodiqligi va vafodorligi bilan ajralib turadi</span></div></div>
+        <div class="badge-item"><div class="ic">⚡</div><div><b>Chidamli</b><span>Jismonan baquvvat va chidamli</span></div></div>
+        <div class="badge-item"><div class="ic">🧭</div><div><b>Moslashuvchan</b><span>Turli muhit va sharoitga oson moslashadi</span></div></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== DISADVANTAGES / TRAINING ===== -->
+  <div class="two-col">
+    <section class="block">
+      <p class="section-title">Kamchiliklari</p>
+      <ul class="cons-list">
+        <li>To'g'ri tarbiya berilmasa, tajovuzkor bo'lib qolishi mumkin</li>
+        <li>Doimiy jismoniy va aqliy mashqlarni talab qiladi</li>
+        <li>Yalang'och muhitda yaxshi yashay olmaydi</li>
+        <li>Egasiga juda bog'lanib qoladi</li>
+      </ul>
+    </section>
+    <section class="block">
+      <p class="section-title">Tayyorlash bosqichlari</p>
+      <div class="timeline">
+        <div class="t-step"><div class="t-num">1</div><span>Ijtimoiylashtirish</span></div>
+        <div class="t-step"><div class="t-num">2</div><span>Itoat mashqlari</span></div>
+        <div class="t-step"><div class="t-num">3</div><span>Iz bo'yicha qidiruv</span></div>
+        <div class="t-step"><div class="t-num">4</div><span>Himoya mashqlari</span></div>
+        <div class="t-step"><div class="t-num">5</div><span>Amaliy sinov</span></div>
+        <div class="t-step"><div class="t-num">6</div><span>Xizmatga tayyor</span></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== STATS / GALLERY / VIDEO ===== -->
+  <div class="bottom-grid">
+    <section class="block">
+      <p class="section-title">Statistika</p>
+      <div class="stat-row"><div class="stat-label"><span>Buyruqlarni bajarishi</span><span>98%</span></div><div class="stat-track"><div class="stat-fill" data-w="98"></div></div></div>
+      <div class="stat-row"><div class="stat-label"><span>Hid bilish</span><span>95%</span></div><div class="stat-track"><div class="stat-fill" data-w="95"></div></div></div>
+      <div class="stat-row"><div class="stat-label"><span>Jismoniy kuch</span><span>97%</span></div><div class="stat-track"><div class="stat-fill" data-w="97"></div></div></div>
+      <div class="stat-row"><div class="stat-label"><span>Aql</span><span>99%</span></div><div class="stat-track"><div class="stat-fill" data-w="99"></div></div></div>
+      <div class="stat-row"><div class="stat-label"><span>Moslashuvchanlik</span><span>92%</span></div><div class="stat-track"><div class="stat-fill" data-w="92"></div></div></div>
+    </section>
+
+    <section class="block">
+      <p class="section-title">Galereya</p>
+      <div class="gallery-grid" id="galleryGrid"></div>
+      <button class="btn-outline" id="allPhotosBtn">Barcha rasmlarni ko'rish</button>
+    </section>
+
+    <section class="block">
+      <p class="section-title">Video</p>
+      <div class="video-box" id="videoBox">
+        <div class="img-wrap">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/20110425%20German%20Shepherd%20Dog%208505.jpg" alt="Video poster" onerror="showFallback(this)">
+          <div class="img-fallback">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M4.9 4.9 19.1 19.1"/></svg>
+            <b>Video mavjud emas</b>
+            <span>Internetga ulanmagansiz. Ulanganingizda video shu yerda yuklanadi.</span>
+          </div>
+        </div>
+        <button class="play-btn" id="playBtn"><span class="circle"></span></button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== FOOTER NAV ===== -->
+  <div class="foot-nav">
+    <a href="belgiyalik-malinua.html" class="nav-btn">
+      <span class="arr">←</span><div><small>Oldingi</small><b>Belgiyalik Malinua</b></div>
+    </a>
+    <div class="notice-btn">⚠️ DIQQAT: Xizmat itlarini tayyorlash faqat malakali mutaxassislar tomonidan amalga oshirilishi kerak!</div>
+    <a href="rottweiler.html" class="nav-btn next">
+      <div><small>Keyingi</small><b>Rottweiler</b></div><span class="arr">→</span>
+    </a>
+  </div>
+
+</main>
+
+<footer>
+  <span>© 2026 O'zbekiston Respublikasi — Xizmat itlaridan foydalanish bo'yicha qo'llanma</span>
+  <span>Barcha huquqlar himoyalangan</span>
+  <span>👤 Muallif: Tog'ayev A.</span>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast">🔔 <span id="toastText"></span></div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <div class="lightbox-nav">
+      <button id="lbPrev">‹</button>
+      <button id="lbNext">›</button>
+    </div>
+    <img id="lightboxImg" src="" alt="">
+    <p class="lightbox-caption" id="lightboxCaption"></p>
+  </div>
+</div>
+
+<script>
+/* ---------- live clock ---------- */
+const months = ["yanvar","fevral","mart","aprel","may","iyun","iyul","avgust","sentabr","oktabr","noyabr","dekabr"];
+function pad(n){return n.toString().padStart(2,"0");}
+function tick(){
+  const now = new Date();
+  document.getElementById("dateText").textContent = `${now.getDate()}-${months[now.getMonth()]}, ${now.getFullYear()}-yil`;
+  document.getElementById("clockText").textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+}
+tick(); setInterval(tick,1000);
+
+function setOnlineStatus(){
+  const dot = document.getElementById("onlineDot");
+  const txt = document.getElementById("onlineText");
+  if(navigator.onLine){ dot.style.background="#3ec27a"; txt.textContent="Onlayn"; }
+  else{ dot.style.background="#d8544a"; dot.style.animation="none"; txt.textContent="Oflayn"; }
+}
+setOnlineStatus();
+window.addEventListener("online", setOnlineStatus);
+window.addEventListener("offline", setOnlineStatus);
+
+/* ---------- image fallback ---------- */
+function showFallback(img){
+  img.style.display="none";
+  const fb = img.parentElement.querySelector(".img-fallback");
+  if(fb) fb.classList.add("show");
+}
+
+/* ---------- toast ---------- */
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById("toast");
+  document.getElementById("toastText").textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove("show"), 2600);
+}
+document.querySelectorAll("[data-toast]").forEach(el=>{
+  el.addEventListener("click", e=>{
+    e.preventDefault();
+    showToast(el.getAttribute("data-toast"));
+  });
+});
+
+/* ---------- nav dropdown ---------- */
+const breedsNav = document.getElementById("breedsNav");
+const breedsDropdown = document.getElementById("breedsDropdown");
+breedsNav.addEventListener("click", e=>{
+  e.preventDefault();
+  breedsNav.classList.toggle("open");
+  breedsDropdown.classList.toggle("show");
+});
+document.addEventListener("click", e=>{
+  if(!breedsNav.contains(e.target) && !breedsDropdown.contains(e.target)){
+    breedsDropdown.classList.remove("show");
+    breedsNav.classList.remove("open");
+  }
+});
+document.getElementById("videoNavLink").addEventListener("click", e=>{
+  e.preventDefault();
+  document.getElementById("videoBox").scrollIntoView({behavior:"smooth", block:"center"});
+  showToast("Video bo'limiga o'tildi");
+});
+
+/* ---------- stats bar animation on scroll ---------- */
+const fills = document.querySelectorAll(".stat-fill");
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      en.target.style.width = en.target.dataset.w + "%";
+      io.unobserve(en.target);
+    }
+  });
+},{threshold:.4});
+fills.forEach(f=>io.observe(f));
+
+/* ---------- gallery ---------- */
+const galleryImages = [
+  { src:"https://commons.wikimedia.org/wiki/Special:FilePath/German%20shepherd.JPG", caption:"Xizmat mashqlarida" },
+  { src:"https://commons.wikimedia.org/wiki/Special:FilePath/Fritz%20von%20Schwenningen%20German%20Shepherd%20Dog.jpg", caption:"Iz bo'yicha qidiruv" },
+  { src:"https://commons.wikimedia.org/wiki/Special:FilePath/Black-german-shepherd.jpg", caption:"Itoat mashqlari" },
+  { src:"https://commons.wikimedia.org/wiki/Special:FilePath/20110425%20German%20Shepherd%20Dog%208505.jpg", caption:"Himoya mashqlari" }
+];
+const galleryGrid = document.getElementById("galleryGrid");
+galleryImages.forEach((g,i)=>{
+  const div = document.createElement("div");
+  div.className = "gallery-thumb";
+  div.dataset.index = i;
+  div.innerHTML = `
+    <div class="img-wrap">
+      <img src="${g.src}" alt="${g.caption}" onerror="showFallback(this)">
+      <div class="img-fallback">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M4.9 4.9 19.1 19.1"/></svg>
+        <span style="font-size:10.5px;max-width:140px;">Internetga ulaning</span>
+      </div>
+    </div>`;
+  div.addEventListener("click", ()=>openLightbox(i));
+  galleryGrid.appendChild(div);
+});
+
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+const lightboxCaption = document.getElementById("lightboxCaption");
+let currentIndex = 0;
+function openLightbox(i){
+  currentIndex = i;
+  renderLightbox();
+  lightbox.classList.add("show");
+}
+function renderLightbox(){
+  const g = galleryImages[currentIndex];
+  lightboxImg.src = g.src;
+  lightboxImg.onerror = function(){
+    this.onerror = null;
+    this.src = "data:image/svg+xml;utf8," + encodeURIComponent(`
+      <svg xmlns='http://www.w3.org/2000/svg' width='800' height='500'>
+        <rect width='100%' height='100%' fill='#0e1e33'/>
+        <text x='50%' y='48%' fill='#d4af37' font-size='22' font-family='sans-serif' text-anchor='middle'>Rasm yuklanmadi</text>
+        <text x='50%' y='56%' fill='#9fb0c9' font-size='14' font-family='sans-serif' text-anchor='middle'>Internetga ulanib, qayta urinib ko'ring</text>
+      </svg>`);
+  };
+  lightboxCaption.textContent = g.caption + `  (${currentIndex+1}/${galleryImages.length})`;
+}
+document.getElementById("allPhotosBtn").addEventListener("click", ()=>openLightbox(0));
+document.getElementById("lightboxClose").addEventListener("click", ()=>lightbox.classList.remove("show"));
+lightbox.addEventListener("click", e=>{ if(e.target===lightbox) lightbox.classList.remove("show"); });
+document.getElementById("lbPrev").addEventListener("click", ()=>{ currentIndex=(currentIndex-1+galleryImages.length)%galleryImages.length; renderLightbox(); });
+document.getElementById("lbNext").addEventListener("click", ()=>{ currentIndex=(currentIndex+1)%galleryImages.length; renderLightbox(); });
+document.addEventListener("keydown", e=>{
+  if(!lightbox.classList.contains("show")) return;
+  if(e.key==="Escape") lightbox.classList.remove("show");
+  if(e.key==="ArrowLeft") document.getElementById("lbPrev").click();
+  if(e.key==="ArrowRight") document.getElementById("lbNext").click();
+});
+
+/* ---------- video ---------- */
+document.getElementById("playBtn").addEventListener("click", ()=>{
+  showToast("Video yuklanmoqda — internetga ulanish talab qilinadi");
+});
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("../sw.js").catch(()=>{});
+}
+</script>
+</body>
+</html>
